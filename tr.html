@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🔐 for my wilis · private</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cormorant Garamond', 'Times New Roman', 'Georgia', serif;
+            background: #1a0f12;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 225, 0.15) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 70%, rgba(200, 150, 170, 0.12) 0%, transparent 35%);
+        }
+        
+        /* LOGIN SCREEN */
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: #fffcf9;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px #e7d2d9 inset;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 1px solid #dbb6c4;
+            border-radius: 24px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .lock-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            color: #b48c94;
+        }
+        .login-title {
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            font-weight: 400;
+            color: #3e2a2f;
+            margin-bottom: 8px;
+        }
+        .login-sub {
+            font-size: 1.1rem;
+            color: #8e6b74;
+            font-style: italic;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ecd9df;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        .pin-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.8rem;
+            text-align: center;
+            letter-spacing: 8px;
+            background: #fdf3f5;
+            border: 2px solid #dbbcc5;
+            border-radius: 60px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            color: #4a2e36;
+            outline: none;
+        }
+        .pin-input:focus {
+            border-color: #c48a9b;
+            box-shadow: 0 0 0 3px #fadce6;
+        }
+        .btn-unlock {
+            background: #dbb6c4;
+            border: none;
+            color: #2d1b20;
+            font-size: 1.4rem;
+            padding: 12px 30px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 500;
+            letter-spacing: 2px;
+            transition: all 0.2s;
+            border: 1px solid #c48a9b;
+            width: 100%;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .btn-unlock:hover {
+            background: #c99eae;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px #a86f80;
+        }
+        .error-msg {
+            color: #b34e5e;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-style: italic;
+            min-height: 30px;
+        }
+        
+        /* KONTEN UTAMA (awalnya hidden) */
+        .kertas-premium {
+            max-width: 520px;
+            width: 100%;
+            background: #fffcf9;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px #e7d2d9 inset;
+            padding: 36px 28px;
+            position: relative;
+            display: none;
+        }
+        .kertas-premium::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 1px solid #dbb6c4;
+            border-radius: 24px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .gold-accent {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c99a84, #dbb6a4, #c99a84, transparent);
+            width: 80%;
+            margin: 16px auto 20px;
+        }
+        .header-premium {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header-premium h1 {
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            font-weight: 400;
+            color: #3e2a2f;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .header-premium h2 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #8e6b74;
+            font-style: italic;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #ecd9df;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        .kalender-premium {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            margin: 40px 0 36px;
+        }
+        .card-momen {
+            flex: 1 1 170px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 22px 10px 18px;
+            text-align: center;
+            box-shadow: 0 12px 25px -12px rgba(90, 50, 60, 0.4);
+            border: 1px solid #edd7de;
+        }
+        .card-momen .bulan {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #a5687a;
+            border-bottom: 1px dashed #e3b8c5;
+            padding-bottom: 8px;
+            width: fit-content;
+            margin: 0 auto 10px;
+        }
+        .card-momen .angka {
+            font-size: 5rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #2f1e23;
+            margin: 6px 0;
+            text-shadow: 2px 2px 0 #f3dae1;
+        }
+        .card-momen .tahun {
+            font-size: 1.3rem;
+            color: #785b64;
+            background: #f6eaf0;
+            display: inline-block;
+            padding: 2px 16px;
+            border-radius: 40px;
+            border: 1px solid #d2aaba;
+        }
+        .surat-cinta {
+            background: #fdf6f8;
+            padding: 32px 24px;
+            border-radius: 40px 16px 40px 16px;
+            margin: 30px 0 24px;
+            border: 1px solid #eacad3;
+        }
+        .surat-cinta p {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: #2c1b20;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            background: linear-gradient(120deg, #fbe3e9 0%, #fbe3e9 40%);
+            color: #9f4d63;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+        .signature-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid #dcc0c8;
+            padding-top: 24px;
+        }
+        .stempel {
+            font-size: 1.5rem;
+            color: #643a44;
+            border: 1px solid #b58b95;
+            padding: 6px 22px;
+            border-radius: 60px;
+            background: #fff2f2;
+        }
+        .tiny-footer {
+            text-align: center;
+            margin-top: 16px;
+            color: #8d6772;
+            border-top: 1px dashed #cfb1bb;
+            padding-top: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SECTION -->
+    <div class="login-container" id="loginScreen">
+        <div class="lock-icon">🔒</div>
+        <h1 class="login-title">private</h1>
+        <div class="login-sub">for my wilis</div>
+        <input type="password" class="pin-input" id="pinInput" placeholder="******" maxlength="6" inputmode="numeric">
+        <button class="btn-unlock" id="unlockBtn">buka</button>
+        <div class="error-msg" id="errorMsg"></div>
+        <div style="margin-top: 20px; font-size: 0.9rem; color: #a87987;">masukkin PIN 6 digit</div>
+    </div>
+
+    <!-- KONTEN UTAMA (pesan buat wilis) -->
+    <div class="kertas-premium" id="contentScreen">
+        <div style="text-align:center; margin-bottom:6px;">
+            <span style="font-size:2rem; color:#b48c94;">☾</span>
+        </div>
+        <div class="header-premium">
+            <h1>my istri · wilis</h1>
+            <h2>— two dates, one heart —</h2>
+        </div>
+        <div class="gold-accent"></div>
+
+        <!-- KALENDER -->
+        <div class="kalender-premium">
+            <div class="card-momen">
+                <div class="bulan">juni</div>
+                <div class="angka">27</div>
+                <div class="tahun">2025</div>
+                <div style="margin-top: 10px; color:#a3747e;">🌙 ketika kita bertemu</div>
+            </div>
+            <div class="card-momen">
+                <div class="bulan">maret</div>
+                <div class="angka">18</div>
+                <div class="tahun">2026</div>
+                <div style="margin-top: 10px; color:#a3747e;">🌸 masih sama kamu</div>
+            </div>
+        </div>
+
+        <!-- PESAN BUAT WILIS -->
+        <div class="surat-cinta">
+            <p>
+                <span class="highlight">gak kerasa yaa sayang</span> kita udah sejauh ini.<br>
+                banyak berantem dan dikit bahagianya, <span class="highlight">maaf aku yaa sayang</span> 
+                yang belum bisa ngehibur Wili dari jarak jauh.
+            </p>
+            <p>
+                maafin aku yang egois ini, aku gak mau hubungan yang kita jalani berhenti di tengah jalan. 
+                <span class="highlight">aku mau sama kamu terus sampek kita tua</span>, aku sampek kapan pun 
+                gak bakal pernah bosen sama Wili. rasa sayang ku sama Wili masih sama di awal kita kenal. 
+                intinya <span style="font-size:1.4rem;">💗 aku sangat sangat sayang sama kamuu</span>.
+            </p>
+            <p>
+                <span class="highlight">mogaa pagii inii</span> Wili bisaa ngajalain harii dengan senyuman yaa sayang.<br>
+                ikhlas ih yg udah ilang, mungkin dengan cara Wili ikhlas bakal di ganti dengan yg lebih dari itu.
+            </p>
+            <p>
+                tetep semangat cantik ku ngajalain hari hari yang berat ini, ingat Wili gak sendiri selagi 
+                <span class="highlight">masi ada aku</span>, aku bakal usahain semuanya buat Wili. 
+                maaf yaa proses ku lambat / lamaa, Wili sabarr yaa.
+            </p>
+            <p>
+                pokoknya Wili harus sabar sabar terus ya nungguin aku, akan tiba kok di mna Wili bisa merasakan 
+                kenikmatan tapa harus pusing nyari uang. <br>💞 jadi selamat beraktivitas sayangg kuuu, 
+                <span style="border-bottom: 1px solid #b58894;">Jan lupaa senyuman yaa biar maniss teruss</span> 
+                <span style="font-size:1.6rem;">🥀</span>
+            </p>
+        </div>
+
+        <!-- SIGNATURE -->
+        <div class="signature-area">
+            <div class="stempel">from mas mu</div>
+            <div style="font-size: 2.3rem;">🦋🤍</div>
+        </div>
+
+        <div class="tiny-footer">
+            <span>✧</span> 27.06.2025 — forever — 18.03.2026 <span>✧</span>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT NYA NIH!! -->
+    <script>
+        // PIN yang bener (bisa diganti sesuai keinginan)
+        const CORRECT_PIN = "270825";
+
+        // Ambil element-element yang diperlukan
+        const loginScreen = document.getElementById('loginScreen');
+        const contentScreen = document.getElementById('contentScreen');
+        const pinInput = document.getElementById('pinInput');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Fungsi buat cek PIN
+        function checkPin() {
+            const enteredPin = pinInput.value.trim();
+            
+            if (enteredPin === CORRECT_PIN) {
+                // Kalo bener: login hilang, konten muncul
+                loginScreen.style.display = 'none';
+                contentScreen.style.display = 'block';
+                errorMsg.innerHTML = ''; // bersihin pesan error
+            } else {
+                // Kalo salah: tampilin pesan error
+                errorMsg.innerHTML = '❤️‍🩹 salah pin sayang, coba lagi';
+                pinInput.value = ''; // kosongin input
+                pinInput.focus(); // cursor langsung ke input
+            }
+        }
+
+        // Event kalau tombol "buka" diklik
+        unlockBtn.addEventListener('click', checkPin);
+
+        // Event kalau tekan Enter di input
+        pinInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkPin();
+            }
+        });
+
+        // Biar inputnya cuma angka (opsional)
+        pinInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
